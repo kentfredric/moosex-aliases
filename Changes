@@ -1,6 +1,8 @@
 Revision history for MooseX-Aliases
 
 {{$NEXT}}
+      - Make constructor argument aliases work for attributes in roles (ether,
+        doy).
 
 0.09  2011-02-09
       - Update Moose dep to make 'use MooseX::Aliases' work properly in roles.
