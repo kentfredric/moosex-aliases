@@ -54,25 +54,29 @@ You can create more than one alias at once by passing a listref:
 
 =cut
 
-my %metaroles;
-if ($Moose::VERSION >= 1.9900) {
-    %metaroles = (
-        class_metaroles => {
-            attribute => ['MooseX::Aliases::Meta::Trait::Attribute'],
-            class     => ['MooseX::Aliases::Meta::Trait::Class'],
-        },
-        role_metaroles => {
-            applied_attribute => ['MooseX::Aliases::Meta::Trait::Attribute'],
-        }
-    );
+my %metaroles = (
+    class_metaroles => {
+        attribute => ['MooseX::Aliases::Meta::Trait::Attribute'],
+    },
+    role_metaroles => {
+        role =>
+            ['MooseX::Aliases::Meta::Trait::Role'],
+        application_to_class =>
+            ['MooseX::Aliases::Meta::Trait::Role::ApplicationToClass'],
+        application_to_role =>
+            ['MooseX::Aliases::Meta::Trait::Role::ApplicationToRole'],
+    },
+);
+
+if (Moose->VERSION >= 1.9900) {
+    $metaroles{class_metaroles}{class} =
+        ['MooseX::Aliases::Meta::Trait::Class'];
+    $metaroles{role_metaroles}{applied_attribute} =
+        ['MooseX::Aliases::Meta::Trait::Attribute'];
 }
 else {
-    %metaroles = (
-        class_metaroles => {
-            attribute   => ['MooseX::Aliases::Meta::Trait::Attribute'],
-            constructor => ['MooseX::Aliases::Meta::Trait::Constructor'],
-        },
-    );
+    $metaroles{class_metaroles}{constructor} =
+        ['MooseX::Aliases::Meta::Trait::Constructor'];
 }
 
 Moose::Exporter->setup_import_methods(

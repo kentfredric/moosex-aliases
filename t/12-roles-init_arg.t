@@ -25,6 +25,7 @@ use Test::Moose;
 {
     package MyTest;
     use Moose;
+    MooseX::Aliases->import if Moose->VERSION < 1.9900;
     with 'MyTestRole';
 }
 
