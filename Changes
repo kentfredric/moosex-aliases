@@ -1,6 +1,9 @@
 Revision history for MooseX-Aliases
 
 {{$NEXT}}
+      - Doc fixes. (Toby Inkster, #4)
+      - Packaging cleanup.
+      - Drop old backcompat code for Moose < 2.00.
 
 0.10  2011-04-29
       - Make constructor argument aliases work for attributes in roles (ether,
