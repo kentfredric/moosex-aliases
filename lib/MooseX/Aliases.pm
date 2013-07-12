@@ -1,5 +1,5 @@
 package MooseX::Aliases;
-use Moose ();
+use Moose 2.0000 ();
 use Moose::Exporter;
 use Scalar::Util qw(blessed);
 # ABSTRACT: easy aliasing of methods and attributes in Moose
@@ -56,6 +56,7 @@ You can create more than one alias at once by passing a arrayref:
 
 my %metaroles = (
     class_metaroles => {
+        class     => ['MooseX::Aliases::Meta::Trait::Class'],
         attribute => ['MooseX::Aliases::Meta::Trait::Attribute'],
     },
     role_metaroles => {
@@ -65,19 +66,10 @@ my %metaroles = (
             ['MooseX::Aliases::Meta::Trait::Role::ApplicationToClass'],
         application_to_role =>
             ['MooseX::Aliases::Meta::Trait::Role::ApplicationToRole'],
+        applied_attribute =>
+            ['MooseX::Aliases::Meta::Trait::Attribute'],
     },
 );
-
-if (Moose->VERSION >= 1.9900) {
-    $metaroles{class_metaroles}{class} =
-        ['MooseX::Aliases::Meta::Trait::Class'];
-    $metaroles{role_metaroles}{applied_attribute} =
-        ['MooseX::Aliases::Meta::Trait::Attribute'];
-}
-else {
-    $metaroles{class_metaroles}{constructor} =
-        ['MooseX::Aliases::Meta::Trait::Constructor'];
-}
 
 Moose::Exporter->setup_import_methods(
     with_meta => ['alias'],

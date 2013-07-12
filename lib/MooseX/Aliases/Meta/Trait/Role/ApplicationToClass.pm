@@ -9,11 +9,7 @@ around apply => sub {
     $class = Moose::Util::MetaRole::apply_metaroles(
         for             => $class,
         class_metaroles => {
-            ((Moose->VERSION >= 1.9900)
-                ? (class =>
-                       [ 'MooseX::Aliases::Meta::Trait::Class' ])
-                : (constructor =>
-                       [ 'MooseX::Aliases::Meta::Trait::Constructor' ])),
+            class => [ 'MooseX::Aliases::Meta::Trait::Class' ],
         }
     );
 
