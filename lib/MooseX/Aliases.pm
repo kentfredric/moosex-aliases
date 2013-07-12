@@ -45,7 +45,7 @@ provides an alias parameter for C<has()> to generate aliased accessors as well
 as the standard ones. Attributes can also be initialized in the constructor via
 their aliased names.
 
-You can create more than one alias at once by passing a listref:
+You can create more than one alias at once by passing a arrayref:
 
     has ip_addr => (
         alias => [ qw(ipAddr ip) ],
