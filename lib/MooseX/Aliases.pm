@@ -191,7 +191,6 @@ L<https://github.com/doy/moosex-aliases/issues>.
 
 =head1 SEE ALSO
 
-L<Moose>
 L<Method::Alias>
 
 =head1 SUPPORT
