@@ -1,6 +1,8 @@
 Revision history for MooseX-Aliases
 
 {{$NEXT}}
+
+0.11  2013-07-12
       - Doc fixes. (Toby Inkster, #4)
       - Packaging cleanup.
       - Drop old backcompat code for Moose < 2.00.
