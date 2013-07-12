@@ -22,4 +22,8 @@ around apply_params => sub {
 
 no Moose::Role;
 
+=for Pod::Coverage
+
+=cut
+
 1;

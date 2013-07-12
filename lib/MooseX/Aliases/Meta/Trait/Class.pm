@@ -1,13 +1,5 @@
 package MooseX::Aliases::Meta::Trait::Class;
 use Moose::Role;
-# ABSTRACT: class metaclass trait for L<MooseX::Aliases>
-
-=head1 DESCRIPTION
-
-This trait adds the handling of aliased C<init_arg>s for inlined constructors
-(for immutable classes).
-
-=cut
 
 around _inline_slot_initializer => sub {
     my $orig = shift;
@@ -44,5 +36,9 @@ around _inline_slot_initializer => sub {
 };
 
 no Moose::Role;
+
+=for Pod::Coverage
+
+=cut
 
 1;

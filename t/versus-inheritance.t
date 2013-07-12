@@ -27,12 +27,12 @@ use Test::Moose;
 }
 
 with_immutable {
-    
+
     is( 'Parent'->method1, 'A' );
     is( 'Parent'->method2, 'A' );
     is( 'Child1'->method1, 'B' );
     is( 'Child1'->method2, 'B' );
     is( 'Child2'->method1, 'A' );
     is( 'Child2'->method2, 'C' );
-    
+
 } qw( Parent Child1 Child2 );

@@ -142,14 +142,14 @@ sub alias {
         sub method1 { "A" }
         alias method2 => "method1";
     }
-    
+
     {
         package Child1;
         use Moose;
         extends "Parent";
         sub method1 { "B" }
     }
-    
+
     {
         package Child2;
         use Moose;
@@ -174,7 +174,7 @@ returns "A".
         alias method2 => "method1";
         around method1 => sub { "B" };
     }
-    
+
     {
         package Class2;
         use Moose;
@@ -184,28 +184,18 @@ returns "A".
         around method2 => sub { "B" };
     }
 
-In the example above, Class1's around modifier modifies the 
+In the example above, Class1's around modifier modifies the
 method using its original name. As a result, both C<method1>
 and C<method2> return "B". Class2's around modifier modifies
 the alias, so C<method2> returns "B", but C<method1> continues
 to return "A".
 
-=head1 CAVEATS
-
-The order of arguments for the C<alias> method has changed (as of version
-0.05). I think the new order makes more sense, and it will make future
-refactoring I have in mind easier. The old order still works (although it gives
-a deprecation warning), unless you were relying on being able to override an
-existing method with an alias - this will now override in the other direction.
-The old argument order will be removed in a future release.
-
 =head1 BUGS
 
 No known bugs.
 
-Please report any bugs through RT: email
-C<bug-moosex-aliases at rt.cpan.org>, or browse to
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=MooseX-Aliases>.
+Please report any bugs to GitHub Issues at
+L<https://github.com/doy/moosex-aliases/issues>.
 
 =head1 SEE ALSO
 
@@ -222,21 +212,21 @@ You can also look for information at:
 
 =over 4
 
-=item * AnnoCPAN: Annotated CPAN documentation
+=item * MetaCPAN
 
-L<http://annocpan.org/dist/MooseX-Aliases>
+L<https://metacpan.org/release/MooseX-Aliases>
 
-=item * CPAN Ratings
+=item * Github
 
-L<http://cpanratings.perl.org/d/MooseX-Aliases>
+L<https://github.com/doy/moosex-aliases>
 
 =item * RT: CPAN's request tracker
 
 L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=MooseX-Aliases>
 
-=item * Search CPAN
+=item * CPAN Ratings
 
-L<http://search.cpan.org/dist/MooseX-Aliases>
+L<http://cpanratings.perl.org/d/MooseX-Aliases>
 
 =back
 

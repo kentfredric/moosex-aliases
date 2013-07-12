@@ -23,10 +23,10 @@ use Test::Moose;
 }
 
 with_immutable {
-    
+
     is( 'Class1'->method1, 'B' );
     is( 'Class1'->method2, 'B' );
     is( 'Class2'->method1, 'A' );
     is( 'Class2'->method2, 'B' );
-    
+
 } qw( Class1 Class2 );

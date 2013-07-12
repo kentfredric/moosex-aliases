@@ -23,4 +23,8 @@ around apply => sub {
 
 no Moose::Role;
 
+=for Pod::Coverage
+
+=cut
+
 1;
