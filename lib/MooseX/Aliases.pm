@@ -131,6 +131,65 @@ sub alias {
     );
 }
 
+=head1 ALIASING VERSUS OTHER MOOSE FEATURES
+
+=head2 Aliasing versus inheritance
+
+    {
+        package Parent;
+        use Moose;
+        use MooseX::Aliases;
+        sub method1 { "A" }
+        alias method2 => "method1";
+    }
+    
+    {
+        package Child1;
+        use Moose;
+        extends "Parent";
+        sub method1 { "B" }
+    }
+    
+    {
+        package Child2;
+        use Moose;
+        extends "Parent";
+        sub method2 { "C" }
+    }
+
+In the example above, Child1 overrides the method using its
+original name (C<method1>). As a result, calling C<method1> or
+C<method2> returns "B". Child2 overrides the method using its
+alias (C<method2>). As a result, calling C<method2> returns "C",
+but calling C<method1> falls through to the parent class, so
+returns "A".
+
+=head2 Aliasing versus method modifiers
+
+    {
+        package Class1;
+        use Moose;
+        use MooseX::Aliases;
+        sub method1 { "A" }
+        alias method2 => "method1";
+        around method1 => sub { "B" };
+    }
+    
+    {
+        package Class2;
+        use Moose;
+        use MooseX::Aliases;
+        sub method1 { "A" }
+        alias method2 => "method1";
+        around method2 => sub { "B" };
+    }
+
+In the example above, Class1's around modifier modifies the 
+method using its original name. As a result, both C<method1>
+and C<method2> return "B". Class2's around modifier modifies
+the alias, so C<method2> returns "B", but C<method1> continues
+to return "A".
+
 =head1 CAVEATS
 
 The order of arguments for the C<alias> method has changed (as of version
