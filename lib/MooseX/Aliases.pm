@@ -2,6 +2,8 @@ package MooseX::Aliases;
 use Moose 2.0000 ();
 use Moose::Exporter;
 use Scalar::Util qw(blessed);
+our $MX_EXCEPTIONS = eval { Moose->VERSION('2.1100'); 1 };
+
 # ABSTRACT: easy aliasing of methods and attributes in Moose
 
 =head1 SYNOPSIS
@@ -112,7 +114,16 @@ sub alias {
             ($alias, $orig) = ($orig, $alias);
         }
     }
-    Moose->throw_error("Cannot find method $orig to alias") unless $method;
+    unless ($method) {
+        if ($MX_EXCEPTIONS) {
+            require Moose::Util;
+            Moose::Util::throw_exception(
+                'Aliases::AliasedMethodMissing' => original_method => $orig );
+        }
+        else {
+            Moose->throw_error("Cannot find method $orig to alias");
+        }
+    }
     $meta->add_method(
         $alias => _get_method_metaclass($method)->wrap(
             sub { shift->$orig(@_) }, # goto $_[0]->can($orig) ?

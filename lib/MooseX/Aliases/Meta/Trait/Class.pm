@@ -1,6 +1,9 @@
 package MooseX::Aliases::Meta::Trait::Class;
 use Moose::Role;
 
+our $MX_EXCEPTIONS = eval { Moose->VERSION('2.1100'); 1 };
+
+
 around _inline_slot_initializer => sub {
     my $orig = shift;
     my $self = shift;
@@ -18,6 +21,16 @@ around _inline_slot_initializer => sub {
 
     my $init_arg = $attr->init_arg;
 
+    my $error_code;
+    if ($MX_EXCEPTIONS) {
+        $error_code = $self->_inline_throw_exception(
+            '"Aliases::InitArgConflict" => init_arg_aliases => \@aliases');
+    }
+    else {
+        $error_code = $self->_inline_throw_error(
+            '"Conflicting init_args: (" . join(", ", @aliases) . ")"');
+    }
+
     return (
         'if (my @aliases = grep { exists $params->{$_} } (qw('
           . join(' ', @{ $attr->alias }) . '))) {',
@@ -25,9 +38,7 @@ around _inline_slot_initializer => sub {
                 'push @aliases, \'' . $init_arg . '\';',
             '}',
             'if (@aliases > 1) {',
-                $self->_inline_throw_error(
-                    '"Conflicting init_args: (" . join(", ", @aliases) . ")"',
-                ) . ';',
+                $error_code .';',
             '}',
             '$params->{' . $init_arg . '} = delete $params->{$aliases[0]};',
         '}',

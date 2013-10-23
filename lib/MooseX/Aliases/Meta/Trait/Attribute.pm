@@ -1,6 +1,7 @@
 package MooseX::Aliases::Meta::Trait::Attribute;
 use Moose::Role;
 use Moose::Util::TypeConstraints;
+our $MX_EXCEPTIONS = eval { Moose->VERSION('2.1100'); 1 };
 Moose::Util::meta_attribute_alias 'Aliased';
 # ABSTRACT: attribute metaclass trait for L<MooseX::Aliases>
 
@@ -65,11 +66,18 @@ around initialize_instance_slot => sub {
         if (exists $params->{ $self->init_arg }) {
             push @aliases, $self->init_arg;
         }
-
-        $self->associated_class->throw_error(
-            'Conflicting init_args: (' . join(', ', @aliases) . ')'
-        ) if @aliases > 1;
-
+        if ( @aliases > 1 ) {
+            if ($MX_EXCEPTIONS) {
+                require Moose::Util;
+                Moose::Util::throw_exception(
+                    "Aliases::InitArgConflict" => init_arg_aliases =>
+                      \@aliases );
+            }
+            else {
+                $self->associated_class->throw_error(
+                    'Conflicting init_args: (' . join( ', ', @aliases ) . ')' );
+            }
+        }
         $params->{ $self->init_arg } = delete $params->{ $aliases[0] };
     }
 
